@@ -1,7 +1,8 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 import datetime
 from django.views import generic
 from . import models
+from .forms import CommentForm
 
 
 def about_me(request):
@@ -30,52 +31,17 @@ class BookDetailView(generic.DetailView):
     model = models.Book
     context_object_name = 'book'
 
-def get_queryset(self):
-         return models.Book.objects.all()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = CommentForm()
+        return context
 
-
-
-
-# from django.shortcuts import render
-# from django.http import HttpResponse
-# from datetime import datetime
-# from django.views import generic
-# from django.shortcuts import get_object_or_404
-# from . import models
-#
-#
-# class BookListView(generic.ListView):
-#     template_name = 'main_page/book.html'
-#     context_object_name = 'books'
-#     model = models.Book
-#
-#     def get_queryset(self):
-#         return models.Book.objects.all()
-#
-#
-# class BookDetailView(generic.DetailView):
-#     template_name = 'main_page/book_detail.html'
-#     context_object_name = 'book'
-#     model = models.Book
-#
-#     def get_queryset(self):
-#         return models.Book.objects.all()
-#
-# def about_me(reguest):
-#     if reguest.method == "GET":
-#         return HttpResponse('Имя:Кайрат'
-#                             'Фамилия:Алтынбеков'
-#                             'Хобби:Спорт,читать книги и другие активности')
-#
-# def about_my_pet(reguest):
-#     if reguest.method == "GET":
-#         return HttpResponse('Имя:Арчи'
-#                             "<img src = 'photo_5280534257913162584_y.jpg' >")
-#
-#
-# def current_time(request):
-#     now = datetime.now()  # Получение текущего системного времени
-#     return HttpResponse(f"Текущая дата и время: {now}")
-
-
-
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.book = self.object
+            comment.save()
+            return redirect('book-detail', pk=self.object.pk)  # Редирект на ту же страницу
+        return self.get(request, *args, **kwargs)
