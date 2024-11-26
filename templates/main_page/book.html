@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ book.title }}</h5>
                     <p class="card-text">{{ book.created_at }}</p>
-                    <a href="{% url 'book-detail' book.id %}" class="btn btn-primary">Подробнее</a>
+                    <a href= "{% url 'book-detail' book.id %}" class="btn btn-primary">Подробнее</a>
                 </div>
             </div>
         </div>
@@ -19,5 +19,6 @@
         <!-- Добавьте дополнительные карточки книг здесь -->
     </div>
 </div>
+
 
 {% include "components/footer.html" %}
