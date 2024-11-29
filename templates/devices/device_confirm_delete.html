@@ -1,0 +1,15 @@
+<!DOCTYPE html>  
+<html lang="ru">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>Подтверждение удаления</title>  
+</head>  
+<body>  
+    <h1>Удалить устройство "{{ device.name }}"?</h1>  
+    <form method="post">  
+        {% csrf_token %}  
+        <button type="submit">Удалить</button>  
+    </form>  
+    <a href="{% url 'device_list' %}">Отмена</a>  
+</body>  
+</html>

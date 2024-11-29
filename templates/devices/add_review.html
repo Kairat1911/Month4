@@ -1,0 +1,16 @@
+<!DOCTYPE html>  
+<html lang="ru">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>Добавить отзыв для {{ device.name }}</title>  
+</head>  
+<body>  
+    <h1>Добавить отзыв для "{{ device.name }}"</h1>  
+    <form method="post">  
+        {% csrf_token %}  
+        {{ form.as_p }}  
+        <button type="submit">Добавить отзыв</button>  
+    </form>  
+    <a href="{% url 'device_detail' device.id %}">Назад к устройству</a>  
+</body>  
+</html>

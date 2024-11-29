@@ -1,0 +1,20 @@
+<!DOCTYPE html>  
+<html lang="ru">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>Список устройств</title>  
+</head>  
+<body>  
+    <h1>Устройства</h1>  
+    <div>  
+        {% for device in devices %}  
+            <div>  
+                <h2><a href="{% url 'device_detail' device.pk %}">{{ device.name }}</a></h2>  
+                <p>Производитель: {{ device.manufacturer }}</p>  
+                <p>Цена: {{ device.price }} руб.</p>  
+                <img src="{{ device.image.url }}" alt="{{ device.name }}" width="100"/>  
+            </div>  
+        {% endfor %}  
+    </div>  
+</body>  
+</html>
